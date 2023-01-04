@@ -8,29 +8,35 @@ import 'package:provider/provider.dart';
 import 'package:training_app/models/cart.dart';
 import 'package:training_app/models/catalog.dart';
 
-class ArticleModel extends ChangeNotifier {
+// class ArticleModel extends ChangeNotifier {
+//   String title;
+//   String status;
+//   String textContent;
+
+//   ArticleModel(this.title, this.status, this.textContent);
+
+//   void rename(String newTitle) {
+//     title = newTitle;
+//     notifyListeners();
+//   }
+
+//   void updateStatus(String newStatus) {
+//     status = newStatus;
+//     notifyListeners();
+//   }
+
+//   void updateTextContent(String newTextContent) {
+//     textContent = newTextContent;
+//     notifyListeners();
+//   }
+// }
+class ArticleModel {
   String title;
   String status;
   String textContent;
 
   ArticleModel(this.title, this.status, this.textContent);
-
-  void rename(String newTitle) {
-    title = newTitle;
-    notifyListeners();
-  }
-
-  void updateStatus(String newStatus) {
-    status = newStatus;
-    notifyListeners();
-  }
-
-  void updateTextContent(String newTextContent) {
-    textContent = newTextContent;
-    notifyListeners();
-  }
 }
-
 // class Article extends StatelessWidget {
 //   const Article({super.key});
 //   @override
@@ -41,8 +47,8 @@ class ArticleModel extends ChangeNotifier {
 // }
 
 class ArticleListModel extends ChangeNotifier {
-  List<ArticleModel> articles;
-  ArticleListModel(this.articles);
+  List<ArticleModel> articles = [];
+  // ArticleListModel(this.articles);
 
   void addArticle(String title, String status, String textContent) {
     var newArticle = ArticleModel(title, status, textContent);
@@ -51,7 +57,6 @@ class ArticleListModel extends ChangeNotifier {
     notifyListeners();
   }
 }
-
 
 class LibraryItem extends StatefulWidget {
   final ArticleModel article;
@@ -65,11 +70,11 @@ class _LibraryItemState extends State<LibraryItem> {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Text(widget.article.title,
-          style: Theme.of(context).textTheme.displayLarge),
+      Text(widget.article.title),
+      // style: Theme.of(context).textThem÷e.displayLarge),
       const Spacer(),
-      Text(widget.article.status,
-          style: Theme.of(context).textTheme.displayLarge)
+      Text(widget.article.status),
+      // style: Theme.of(context).textTheme.displayLarge)
     ]);
   }
 }
