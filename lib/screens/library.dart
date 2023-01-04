@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:training_app/models/library.dart';
 import 'package:provider/provider.dart';
 
-class LibraryItem extends StatefulWidget {
+class LibraryRow extends StatefulWidget {
   final ArticleModel article;
-  const LibraryItem({Key? key, required this.article}) : super(key: key);
+  const LibraryRow({Key? key, required this.article}) : super(key: key);
 
   @override
-  State<LibraryItem> createState() => _LibraryItemState();
+  State<LibraryRow> createState() => _LibraryRowState();
 }
 
-class _LibraryItemState extends State<LibraryItem> {
+class _LibraryRowState extends State<LibraryRow> {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -18,29 +18,6 @@ class _LibraryItemState extends State<LibraryItem> {
       const Spacer(),
       Text(widget.article.status),
     ]);
-  }
-}
-
-class MyLibrary extends StatefulWidget {
-  final ArticleListModel articleList;
-  const MyLibrary({Key? key, required this.articleList}) : super(key: key);
-
-  @override
-  State<MyLibrary> createState() => _MyLibraryState();
-}
-
-class _MyLibraryState extends State<MyLibrary> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Catalosssg')),
-        body: ListView.builder(
-          itemCount: widget.articleList.articles.length,
-          itemBuilder: (context, index) {
-            return LibraryItem(article: widget.articleList.articles[index]);
-          },
-        ),
-        floatingActionButton: const AddArticleButton());
   }
 }
 
@@ -59,6 +36,38 @@ class AddArticleButton extends StatelessWidget {
   }
 }
 
+class LibraryBody extends StatefulWidget {
+  final ArticleListModel articleList;
+  const LibraryBody({Key? key, required this.articleList}) : super(key: key);
+
+  @override
+  State<LibraryBody> createState() => _LibraryBodyState();
+}
+
+class _LibraryBodyState extends State<LibraryBody> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: widget.articleList.articles.length,
+      itemBuilder: (context, index) {
+        return LibraryRow(article: widget.articleList.articles[index]);
+      },
+    );
+  }
+}
+
+class LibraryScaffold extends StatelessWidget {
+  const LibraryScaffold({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Catalosssg')),
+        body: LibraryBody(articleList: Provider.of<ArticleListModel>(context)),
+        floatingActionButton: const AddArticleButton());
+  }
+}
+
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
 
@@ -72,8 +81,7 @@ class _LibraryPageState extends State<LibraryPage> {
     return ChangeNotifierProvider(
       create: (_) => ArticleListModel(),
       child: Consumer<ArticleListModel>(
-        builder: (context, articleList, child) =>
-            MyLibrary(articleList: articleList),
+        builder: (context, articleList, child) => const LibraryScaffold(),
       ),
     );
   }
