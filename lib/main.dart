@@ -37,13 +37,13 @@ void main() {
 //   );
 // }
 
-List<Article> articleList = [
-  Article("title", "status 1", "some_text_content"),
-  Article("title 2", "status 2", "other some_text_content"),
-  Article("title 3", "status 3", "another some_text_content"),
-  Article("title 3", "status 3", "another some_text_content"),
-  Article("title 3", "status 3", "another some_text_content"),
-];
+ArticleListModel articleList = ArticleListModel([
+  ArticleModel("title", "status 1", "some_text_content"),
+  ArticleModel("title 2", "status 2", "other some_text_content"),
+  ArticleModel("title 3", "status 3", "another some_text_content"),
+  ArticleModel("title 3", "status 3", "another some_text_content"),
+  ArticleModel("title 3", "status 3", "another some_text_content"),
+]);
 
 GoRouter router() {
   return GoRouter(
@@ -52,17 +52,28 @@ GoRouter router() {
       GoRoute(
         path: '/',
         builder: (context, state) => MyLibrary(articleList: articleList),
-        routes: [
-          GoRoute(
-            path: 'cart',
-            builder: (context, state) => const MyCart(),
-          ),
-        ],
       ),
     ],
   );
 }
 
+// GoRouter router() {
+//   return GoRouter(
+//     initialLocation: '/',
+//     routes: [
+//       GoRoute(
+//         path: '/',
+//         builder: (context, state) => MyLibrary(articleList: articleList),
+//         routes: [
+//           GoRoute(
+//             path: 'cart',
+//             builder: (context, state) => const MyCart(),
+//           ),
+//         ],
+//       ),
+//     ],
+//   );
+// }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -73,18 +84,20 @@ class MyApp extends StatelessWidget {
       providers: [
         // In this sample app, CatalogModel never changes, so a simple Provider
         // is sufficient.
-        Provider(create: (context) => CatalogModel()),
+        // Provider(create: (context) => ArticleModel()),
         // CartModel is implemented as a ChangeNotifier, which calls for the use
         // of ChangeNotifierProvider. Moreover, CartModel depends
         // on CatalogModel, so a ProxyProvider is needed.
-        ChangeNotifierProxyProvider<CatalogModel, CartModel>(
-          create: (context) => CartModel(),
+        ChangeNotifierProxyProvider<ArticleModel, ArticleListModel>(
+          create: (context) => ArticleListModel(),
           update: (context, catalog, cart) {
             if (cart == null) throw ArgumentError.notNull('cart');
             cart.catalog = catalog;
             return cart;
           },
         ),
+  
+        ,
       ],
       child: MaterialApp.router(
         title: 'Provider Demo',

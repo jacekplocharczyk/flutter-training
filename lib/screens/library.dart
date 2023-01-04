@@ -8,12 +8,27 @@ import 'package:provider/provider.dart';
 import 'package:training_app/models/cart.dart';
 import 'package:training_app/models/catalog.dart';
 
-class Article {
-  Article(this.title, this.status, this.textContent);
+class ArticleModel extends ChangeNotifier {
+  String title;
+  String status;
+  String textContent;
 
-  final String title;
-  final String status;
-  final String textContent;
+  ArticleModel(this.title, this.status, this.textContent);
+
+  void rename(String newTitle) {
+    title = newTitle;
+    notifyListeners();
+  }
+
+  void updateStatus(String newStatus) {
+    status = newStatus;
+    notifyListeners();
+  }
+
+  void updateTextContent(String newTextContent) {
+    textContent = newTextContent;
+    notifyListeners();
+  }
 }
 
 // class Article extends StatelessWidget {
@@ -25,8 +40,21 @@ class Article {
 //   }
 // }
 
+class ArticleListModel extends ChangeNotifier {
+  List<ArticleModel> articles;
+  ArticleListModel(this.articles);
+
+  void addArticle(String title, String status, String textContent) {
+    var newArticle = ArticleModel(title, status, textContent);
+
+    articles.add(newArticle);
+    notifyListeners();
+  }
+}
+
+
 class LibraryItem extends StatefulWidget {
-  final Article article;
+  final ArticleModel article;
   const LibraryItem({Key? key, required this.article}) : super(key: key);
 
   @override
@@ -47,7 +75,7 @@ class _LibraryItemState extends State<LibraryItem> {
 }
 
 class MyLibrary extends StatefulWidget {
-  final List<Article> articleList;
+  final ArticleListModel articleList;
   const MyLibrary({Key? key, required this.articleList}) : super(key: key);
 
   @override
@@ -60,9 +88,9 @@ class _MyLibraryState extends State<MyLibrary> {
     return Scaffold(
       appBar: AppBar(title: const Text('Catalosssg')),
       body: ListView.builder(
-        itemCount: widget.articleList.length,
+        itemCount: widget.articleList.articles.length,
         itemBuilder: (context, index) {
-          return LibraryItem(article: widget.articleList[index]);
+          return LibraryItem(article: widget.articleList.articles[index]);
         },
       ),
     );
