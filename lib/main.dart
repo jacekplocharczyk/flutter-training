@@ -18,7 +18,7 @@ GoRouter router() {
         routes: [
           GoRoute(
             path: 'add',
-            builder: (context, state) => const AddArticlePage(),
+            builder: (context, state) => AddArticlePage(),
           ),
         ],
       ),

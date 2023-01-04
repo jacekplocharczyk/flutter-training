@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:training_app/models/library.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class SubmitButton extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  const SubmitButton({Key? key, required this.formKey}) : super(key: key);
+  final TextEditingController titleController;
+  final TextEditingController articleContentController;
+  const SubmitButton(
+      {Key? key,
+      required this.formKey,
+      required this.titleController,
+      required this.articleContentController})
+      : super(key: key);
 
   @override
   State<SubmitButton> createState() => _SubmitButtonState();
@@ -16,8 +26,14 @@ class _SubmitButtonState extends State<SubmitButton> {
         child: ElevatedButton(
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
+              var articleList = Provider.of<ArticleListModel>(context);
+              String title = widget.titleController.text;
+              String content = widget.articleContentController.text;
+              String status = "runnign";
+              articleList.addArticle(title, status, content);
+
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('And your mom Data')),
+                SnackBar(content: Text('And your mom Data $title')),
               );
             }
           },
@@ -26,16 +42,25 @@ class _SubmitButtonState extends State<SubmitButton> {
   }
 }
 
-class ArticleTitleField extends StatelessWidget {
-  const ArticleTitleField({super.key});
+class ArticleTitleField extends StatefulWidget {
+  final TextEditingController controller;
+
+  const ArticleTitleField({Key? key, required this.controller})
+      : super(key: key);
 
   @override
+  State<ArticleTitleField> createState() => _ArticleTitleFieldState();
+}
+
+class _ArticleTitleFieldState extends State<ArticleTitleField> {
+  @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
+        controller: widget.controller,
         maxLength: 80,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: UnderlineInputBorder(),
           labelText: 'Article title',
         ),
@@ -44,18 +69,27 @@ class ArticleTitleField extends StatelessWidget {
   }
 }
 
-class ArticleContentField extends StatelessWidget {
-  const ArticleContentField({super.key});
+class ArticleContentField extends StatefulWidget {
+  final TextEditingController controller;
+
+  const ArticleContentField({Key? key, required this.controller})
+      : super(key: key);
 
   @override
+  State<ArticleContentField> createState() => _ArticleContentFieldState();
+}
+
+class _ArticleContentFieldState extends State<ArticleContentField> {
+  @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
+        controller: widget.controller,
         maxLength: 1000,
         maxLines: null,
         keyboardType: TextInputType.multiline,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: UnderlineInputBorder(),
           labelText: 'Article content',
         ),
@@ -65,7 +99,10 @@ class ArticleContentField extends StatelessWidget {
 }
 
 class AddArticlePage extends StatefulWidget {
-  const AddArticlePage({super.key});
+  final titleController = TextEditingController();
+  final articleContentController = TextEditingController();
+
+  AddArticlePage({super.key});
 
   @override
   AddArticlePageState createState() {
@@ -78,20 +115,37 @@ class AddArticlePageState extends State<AddArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Catalosssg')),
-        body: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const ArticleTitleField(),
-              const ArticleContentField(),
-              SubmitButton(
-                formKey: _formKey,
-              )
-            ],
+    return ChangeNotifierProvider(
+      create: (_) => ArticleListModel(),
+      child: Consumer<ArticleListModel>(
+        builder: (context, articleList, child) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Add new article'),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                context.pushReplacement('/');
+              },
+            ),
           ),
-        ));
+          body: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ArticleTitleField(controller: widget.titleController),
+                ArticleContentField(
+                    controller: widget.articleContentController),
+                SubmitButton(
+                  formKey: _formKey,
+                  titleController: widget.titleController,
+                  articleContentController: widget.articleContentController,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
