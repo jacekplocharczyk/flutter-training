@@ -40,11 +40,7 @@ class _MyLibraryState extends State<MyLibrary> {
             return LibraryItem(article: widget.articleList.articles[index]);
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => widget.articleList
-              .addArticle("haaai amam", "your status", "your text contents"),
-          child: const Icon(Icons.add),
-        ));
+        floatingActionButton: const AddArticleButton());
   }
 }
 
@@ -53,13 +49,11 @@ class AddArticleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var articleList = context.select<ArticleListModel, ArticleListModel>(
-      (articleList) => articleList,
-    );
+    var articleList = Provider.of<ArticleListModel>(context);
 
     return FloatingActionButton(
       onPressed: () => articleList.addArticle(
-          "haaai amam", "your status", "your text contents"),
+          "hello amam", "your status", "your text contents"),
       child: const Icon(Icons.add),
     );
   }
