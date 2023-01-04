@@ -14,11 +14,19 @@ class LibraryRow extends StatefulWidget {
 class _LibraryRowState extends State<LibraryRow> {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Text(widget.article.title),
-      const Spacer(),
-      Text(widget.article.status),
-    ]);
+    final int index = widget.article.index;
+    return GestureDetector(
+      onTap: () {
+        context.pushReplacement("/articles/$index");
+      },
+      child: Row(
+        children: [
+          Text(widget.article.title),
+          const Spacer(),
+          Text(widget.article.status),
+        ],
+      ),
+    );
   }
 }
 

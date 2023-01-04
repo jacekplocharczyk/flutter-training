@@ -3,12 +3,13 @@ import 'package:training_app/screens/library.dart';
 import 'package:training_app/models/library.dart';
 import 'package:training_app/screens/welcome.dart';
 import 'package:training_app/screens/add_article.dart';
+import 'package:training_app/screens/view_article.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 GoRouter router() {
   return GoRouter(
-    initialLocation: '/welcome',
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: '/welcome',
@@ -21,6 +22,13 @@ GoRouter router() {
           GoRoute(
             path: 'add',
             builder: (context, state) => AddArticlePage(),
+          ),
+          GoRoute(
+            path: 'articles/:index',
+            builder: (context, state) {
+              var index = int.parse(state.params["index"]!);
+              return ArticleViewPage(articleIndex: index);
+            },
           ),
         ],
       ),
