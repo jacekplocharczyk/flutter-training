@@ -1,28 +1,6 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
-
-class ArticleModel {
-  String title;
-  String status;
-  String textContent;
-
-  ArticleModel(this.title, this.status, this.textContent);
-}
-
-class ArticleListModel extends ChangeNotifier {
-  List<ArticleModel> articles = [];
-  // ArticleListModel(this.articles);
-
-  void addArticle(String title, String status, String textContent) {
-    var newArticle = ArticleModel(title, status, textContent);
-
-    articles.add(newArticle);
-    notifyListeners();
-  }
-}
+import 'package:training_app/models/library.dart';
+import 'package:provider/provider.dart';
 
 class LibraryItem extends StatefulWidget {
   final ArticleModel article;
@@ -55,12 +33,36 @@ class _MyLibraryState extends State<MyLibrary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Catalosssg')),
-      body: ListView.builder(
-        itemCount: widget.articleList.articles.length,
-        itemBuilder: (context, index) {
-          return LibraryItem(article: widget.articleList.articles[index]);
-        },
+        appBar: AppBar(title: const Text('Catalosssg')),
+        body: ListView.builder(
+          itemCount: widget.articleList.articles.length,
+          itemBuilder: (context, index) {
+            return LibraryItem(article: widget.articleList.articles[index]);
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => widget.articleList
+              .addArticle("haaai amam", "your status", "your text contents"),
+          child: const Icon(Icons.add),
+        ));
+  }
+}
+
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({super.key});
+
+  @override
+  State<LibraryPage> createState() => _LibraryPageState();
+}
+
+class _LibraryPageState extends State<LibraryPage> {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => ArticleListModel(),
+      child: Consumer<ArticleListModel>(
+        builder: (context, articleList, child) =>
+            MyLibrary(articleList: articleList),
       ),
     );
   }
