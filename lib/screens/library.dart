@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_app/models/library.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class LibraryRow extends StatefulWidget {
   final ArticleModel article;
@@ -26,11 +27,10 @@ class AddArticleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var articleList = Provider.of<ArticleListModel>(context);
-
     return FloatingActionButton(
-      onPressed: () => articleList.addArticle(
-          "hello amam", "your status", "your text contents"),
+      onPressed: () {
+        context.pushReplacement('/add');
+      },
       child: const Icon(Icons.add),
     );
   }

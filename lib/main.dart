@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_app/screens/library.dart';
 import 'package:training_app/screens/welcome.dart';
-import 'package:training_app/screens/new_article.dart';
+import 'package:training_app/screens/add_article.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router() {
@@ -18,7 +18,7 @@ GoRouter router() {
         routes: [
           GoRoute(
             path: 'add',
-            builder: (context, state) => const MyCustomForm(),
+            builder: (context, state) => const AddArticlePage(),
           ),
         ],
       ),

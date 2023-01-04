@@ -64,32 +64,34 @@ class ArticleContentField extends StatelessWidget {
   }
 }
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+class AddArticlePage extends StatefulWidget {
+  const AddArticlePage({super.key});
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  AddArticlePageState createState() {
+    return AddArticlePageState();
   }
 }
 
-class MyCustomFormState extends State<MyCustomForm> {
+class AddArticlePageState extends State<AddArticlePage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const ArticleTitleField(),
-          const ArticleContentField(),
-          SubmitButton(
-            formKey: _formKey,
-          )
-        ],
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(title: const Text('Catalosssg')),
+        body: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const ArticleTitleField(),
+              const ArticleContentField(),
+              SubmitButton(
+                formKey: _formKey,
+              )
+            ],
+          ),
+        ));
   }
 }
