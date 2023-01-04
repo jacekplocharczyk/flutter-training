@@ -48,6 +48,23 @@ class _MyLibraryState extends State<MyLibrary> {
   }
 }
 
+class AddArticleButton extends StatelessWidget {
+  const AddArticleButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var articleList = context.select<ArticleListModel, ArticleListModel>(
+      (articleList) => articleList,
+    );
+
+    return FloatingActionButton(
+      onPressed: () => articleList.addArticle(
+          "haaai amam", "your status", "your text contents"),
+      child: const Icon(Icons.add),
+    );
+  }
+}
+
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
 
