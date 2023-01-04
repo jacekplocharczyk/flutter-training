@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:training_app/screens/library.dart';
+// import 'package:training_app/screens/library.dart';
+import 'package:training_app/screens/new_article.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +11,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const appTitle = 'Training App';
+
     return MaterialApp(
-      title: 'Flutter State Management Basic',
+      title: appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LibraryPage(),
+      home: Scaffold(
+          appBar: AppBar(title: const Text(appTitle)),
+          body: const MyCustomForm()),
     );
   }
 }
