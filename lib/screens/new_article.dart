@@ -12,7 +12,7 @@ class _SubmitButtonState extends State<SubmitButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 26.0),
+        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
         child: ElevatedButton(
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
