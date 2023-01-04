@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:training_app/screens/library.dart';
+import 'package:training_app/models/library.dart';
 import 'package:training_app/screens/welcome.dart';
 import 'package:training_app/screens/add_article.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 GoRouter router() {
   return GoRouter(
@@ -33,12 +35,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const appTitle = 'Training App';
 
-    return MaterialApp.router(
-        title: appTitle,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routerConfig: router());
+    return ChangeNotifierProvider(
+        create: (_) => ArticleListModel(),
+        child: Consumer<ArticleListModel>(
+          builder: (context, articleList, child) => MaterialApp.router(
+            title: appTitle,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            routerConfig: router(),
+          ),
+        ));
   }
 }
 

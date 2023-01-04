@@ -26,14 +26,15 @@ class _SubmitButtonState extends State<SubmitButton> {
         child: ElevatedButton(
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
-              var articleList = Provider.of<ArticleListModel>(context);
+              var articleList =
+                  Provider.of<ArticleListModel>(context, listen: false);
               String title = widget.titleController.text;
               String content = widget.articleContentController.text;
-              String status = "runnign";
+              String status = "runing";
               articleList.addArticle(title, status, content);
 
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('And your mom Data $title')),
+                SnackBar(content: Text('Item added: $title')),
               );
             }
           },
@@ -115,37 +116,83 @@ class AddArticlePageState extends State<AddArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ArticleListModel(),
-      child: Consumer<ArticleListModel>(
-        builder: (context, articleList, child) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Add new article'),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                context.pushReplacement('/');
-              },
-            ),
-          ),
-          body: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ArticleTitleField(controller: widget.titleController),
-                ArticleContentField(
-                    controller: widget.articleContentController),
-                SubmitButton(
-                  formKey: _formKey,
-                  titleController: widget.titleController,
-                  articleContentController: widget.articleContentController,
-                )
-              ],
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add new article'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pushReplacement('/');
+          },
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ArticleTitleField(controller: widget.titleController),
+            ArticleContentField(controller: widget.articleContentController),
+            SubmitButton(
+              formKey: _formKey,
+              titleController: widget.titleController,
+              articleContentController: widget.articleContentController,
+            )
+          ],
         ),
       ),
     );
   }
 }
+
+// class AddArticlePage extends StatefulWidget {
+//   final titleController = TextEditingController();
+//   final articleContentController = TextEditingController();
+
+//   AddArticlePage({super.key});
+
+//   @override
+//   AddArticlePageState createState() {
+//     return AddArticlePageState();
+//   }
+// }
+
+// class AddArticlePageState extends State<AddArticlePage> {
+//   final _formKey = GlobalKey<FormState>();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(
+//       create: (_) => ArticleListModel(),
+//       child: Consumer<ArticleListModel>(
+//         builder: (context, articleList, child) => Scaffold(
+//           appBar: AppBar(
+//             title: const Text('Add new article'),
+//             leading: IconButton(
+//               icon: const Icon(Icons.arrow_back),
+//               onPressed: () {
+//                 context.pushReplacement('/');
+//               },
+//             ),
+//           ),
+//           body: Form(
+//             key: _formKey,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: <Widget>[
+//                 ArticleTitleField(controller: widget.titleController),
+//                 ArticleContentField(
+//                     controller: widget.articleContentController),
+//                 SubmitButton(
+//                   formKey: _formKey,
+//                   titleController: widget.titleController,
+//                   articleContentController: widget.articleContentController,
+//                 )
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

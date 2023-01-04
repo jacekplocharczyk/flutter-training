@@ -47,11 +47,14 @@ class LibraryBody extends StatefulWidget {
 class _LibraryBodyState extends State<LibraryBody> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.articleList.articles.length,
-      itemBuilder: (context, index) {
-        return LibraryRow(article: widget.articleList.articles[index]);
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+      child: ListView.builder(
+        itemCount: widget.articleList.articles.length,
+        itemBuilder: (context, index) {
+          return LibraryRow(article: widget.articleList.articles[index]);
+        },
+      ),
     );
   }
 }
@@ -62,27 +65,17 @@ class LibraryScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Catalosssg')),
+        appBar: AppBar(title: const Text('Your articles')),
         body: LibraryBody(articleList: Provider.of<ArticleListModel>(context)),
         floatingActionButton: const AddArticleButton());
   }
 }
 
-class LibraryPage extends StatefulWidget {
+class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
 
   @override
-  State<LibraryPage> createState() => _LibraryPageState();
-}
-
-class _LibraryPageState extends State<LibraryPage> {
-  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ArticleListModel(),
-      child: Consumer<ArticleListModel>(
-        builder: (context, articleList, child) => const LibraryScaffold(),
-      ),
-    );
+    return const LibraryScaffold();
   }
 }
