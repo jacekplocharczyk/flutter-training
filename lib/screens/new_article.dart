@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:training_app/screens/library.dart';
 
 class SubmitButton extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -27,6 +26,44 @@ class _SubmitButtonState extends State<SubmitButton> {
   }
 }
 
+class ArticleTitleField extends StatelessWidget {
+  const ArticleTitleField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      child: TextField(
+        maxLength: 80,
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          labelText: 'Article title',
+        ),
+      ),
+    );
+  }
+}
+
+class ArticleContentField extends StatelessWidget {
+  const ArticleContentField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      child: TextField(
+        maxLength: 1000,
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          labelText: 'Article content',
+        ),
+      ),
+    );
+  }
+}
+
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
@@ -45,15 +82,9 @@ class MyCustomFormState extends State<MyCustomForm> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
+        children: <Widget>[
+          const ArticleTitleField(),
+          const ArticleContentField(),
           SubmitButton(
             formKey: _formKey,
           )
