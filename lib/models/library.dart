@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class ArticleModel {
-  String title;
+  final String title;
   String status;
   String textContent;
 
@@ -14,6 +14,5 @@ class ArticleListModel extends ChangeNotifier {
   void addArticle(String title, String status, String textContent) {
     var newArticle = ArticleModel(title, status, textContent);
     articles.add(newArticle);
-    notifyListeners();
   }
 }

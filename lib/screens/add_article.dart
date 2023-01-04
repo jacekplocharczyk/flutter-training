@@ -36,6 +36,7 @@ class _SubmitButtonState extends State<SubmitButton> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Item added: $title')),
               );
+              context.pushReplacement('/');
             }
           },
           child: const Text('Submit'),
