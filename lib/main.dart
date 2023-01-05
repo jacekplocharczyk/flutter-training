@@ -8,27 +8,34 @@ import 'package:training_app/screens/upload_article.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+Widget wrapConsumer(Widget body) {
+  var consumer = Consumer<ArticleListModel>(
+    builder: (context, articleList, child) => body,
+  );
+  return consumer;
+}
+
 GoRouter router() {
   return GoRouter(
     initialLocation: '/articles/0',
     routes: [
       GoRoute(
         path: '/welcome',
-        builder: (context, state) => const WelcomePage(),
+        builder: (context, state) => wrapConsumer(const WelcomePage()),
       ),
       GoRoute(
         path: '/',
-        builder: (context, state) => const LibraryPage(),
+        builder: (context, state) => wrapConsumer(const LibraryPage()),
         routes: [
           GoRoute(
             path: 'add',
-            builder: (context, state) => AddArticlePage(),
+            builder: (context, state) => wrapConsumer(AddArticlePage()),
           ),
           GoRoute(
             path: 'articles/:index',
             builder: (context, state) {
               var index = int.parse(state.params["index"]!);
-              return ArticleViewPage(articleIndex: index);
+              return wrapConsumer(ArticleViewPage(articleIndex: index));
             },
             routes: [
               GoRoute(
@@ -36,7 +43,7 @@ GoRouter router() {
                 path: 'upload',
                 builder: (context, state) {
                   var index = int.parse(state.params["index"]!);
-                  return UploadArticlePage(articleIndex: index);
+                  return wrapConsumer(UploadArticlePage(articleIndex: index));
                 },
               )
             ],
@@ -47,6 +54,28 @@ GoRouter router() {
   );
 }
 
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     const appTitle = 'Training App';
+
+//     return ChangeNotifierProvider(
+//       create: (_) => ArticleListModel(),
+//       child: Consumer<ArticleListModel>(
+//         builder: (context, articleList, child) => MaterialApp.router(
+//           title: appTitle,
+//           theme: ThemeData(
+//             primarySwatch: Colors.blue,
+//           ),
+//           routerConfig: router(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -56,14 +85,12 @@ class MyApp extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => ArticleListModel(),
-      child: Consumer<ArticleListModel>(
-        builder: (context, articleList, child) => MaterialApp.router(
-          title: appTitle,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          routerConfig: router(),
+      child: MaterialApp.router(
+        title: appTitle,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        routerConfig: router(),
       ),
     );
   }

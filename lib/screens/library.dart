@@ -62,9 +62,9 @@ class _LibraryBodyState extends State<LibraryBody> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
       child: ListView.builder(
-        itemCount: widget.articleList.articles.length,
+        itemCount: widget.articleList.getItems().length,
         itemBuilder: (context, index) {
-          return LibraryRow(article: widget.articleList.articles[index]);
+          return LibraryRow(article: widget.articleList.getItems()[index]);
         },
       ),
     );

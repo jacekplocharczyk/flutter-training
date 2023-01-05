@@ -84,7 +84,7 @@ class _ArticleViewPageState extends State<ArticleViewPage> {
   Widget build(BuildContext context) {
     final articleList = Provider.of<ArticleListModel>(context);
 
-    final article = articleList.articles[widget.articleIndex];
+    final article = articleList.getItems()[widget.articleIndex];
     final appBar = ViewArticleAppBar(article: article);
 
     return Scaffold(
