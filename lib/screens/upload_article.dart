@@ -58,12 +58,12 @@ class _UploadArticlePageState extends State<UploadArticlePage> {
 
     final article = articleList.getItems()[widget.articleIndex];
 
-    final body = FutureBuilder<String?>(
+    final body = FutureBuilder<Map<String, String>?>(
       future: http_requests.scheduleGeneratingAudio(article.textContent),
       builder: (context, snapshot) {
-        var hash = snapshot.data;
+        var scheduleResult = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done) {
-          articleList.updateStatusAfterScheduling(widget.articleIndex, hash);
+          articleList.updateStatusAfterScheduling(widget.articleIndex, scheduleResult);
           return Text("Generating scheduled: ${article.articleHash}");
         } else {
           return const CircularProgressIndicator();

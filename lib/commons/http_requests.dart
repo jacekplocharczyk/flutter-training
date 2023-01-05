@@ -13,11 +13,30 @@ Future<http.Response> sendRequestGenerate(String text) async {
   );
 }
 
-Future <String?> scheduleGeneratingAudio(String text) async {
-  String? itemId;
+Future<http.Response> checkProcessingStatus(String audioUrl) async {
+  http.Response response;
+  var i = 0;
+
+  do {
+    response = await http.get(Uri.parse(audioUrl));
+    if (response.statusCode == 502) {
+      await Future.delayed(const Duration(seconds: 1));
+    } else {
+      return response;
+    }
+    i++;
+  } while (i < 5);
+
+  return response;
+}
+
+Future<Map<String, String>?> scheduleGeneratingAudio(String text) async {
   var response = await sendRequestGenerate(text);
   if (response.statusCode == 200) {
-    itemId = jsonDecode(response.body)["item_id"];
+    Map<String, String> responseMap = Map.castFrom(json.decode(response.body));
+    return responseMap;
+    // itemId = responseMap["item_id"];
+    // itemId = responseMap["item_id"];
   }
-  return itemId;
+  return null;
 }

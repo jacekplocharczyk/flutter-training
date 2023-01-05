@@ -59,6 +59,7 @@ class LibraryBody extends StatefulWidget {
 class _LibraryBodyState extends State<LibraryBody> {
   @override
   Widget build(BuildContext context) {
+    widget.articleList.refresh();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
       child: ListView.builder(
