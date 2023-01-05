@@ -35,8 +35,6 @@ Future<Map<String, String>?> scheduleGeneratingAudio(String text) async {
   if (response.statusCode == 200) {
     Map<String, String> responseMap = Map.castFrom(json.decode(response.body));
     return responseMap;
-    // itemId = responseMap["item_id"];
-    // itemId = responseMap["item_id"];
   }
   return null;
 }
