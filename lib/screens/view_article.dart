@@ -20,6 +20,36 @@ import 'package:training_app/commons/http_requests.dart';
 //           ),
 //         ),
 
+class GoBackButton extends StatelessWidget {
+  const GoBackButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        context.pushReplacement('/');
+      },
+    );
+  }
+}
+
+class UploadButton extends StatelessWidget {
+  const UploadButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.publish),
+      onPressed: () {
+        String currentLocation = GoRouterState.of(context).location;
+        var uploadLocation = "$currentLocation/upload";
+        context.go(uploadLocation);
+      },
+    );
+  }
+}
+
 class ViewArticleAppBar extends StatefulWidget with PreferredSizeWidget {
   final ArticleModel article;
   const ViewArticleAppBar({Key? key, required this.article}) : super(key: key);
@@ -35,20 +65,8 @@ class _ViewArticleAppBarState extends State<ViewArticleAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(widget.article.title),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          context.pushReplacement('/');
-        },
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.publish),
-          onPressed: () {
-            context.pushReplacement('/');
-          },
-        ),
-      ],
+      leading: const GoBackButton(),
+      actions: const [UploadButton()],
     );
   }
 }

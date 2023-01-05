@@ -21,7 +21,7 @@ class _LibraryRowState extends State<LibraryRow> {
     final int index = widget.article.index;
     return GestureDetector(
       onTap: () {
-        context.pushReplacement("/articles/$index");
+        context.go("/articles/$index");
       },
       child: Row(
         children: [

@@ -6,6 +6,7 @@ class ArticleModel {
   article_states.ArticleState state;
   String textContent;
   int index;
+  String? articleHash;
 
   ArticleModel(
       {required this.title,
@@ -23,7 +24,8 @@ class ArticleListModel extends ChangeNotifier {
         index: 0)
   ];
 
-  void addArticle(String title, article_states.ArticleState state, String textContent) {
+  void addArticle(
+      String title, article_states.ArticleState state, String textContent) {
     int newIndex = articles.length;
     var newArticle = ArticleModel(
         title: title, state: state, textContent: textContent, index: newIndex);
