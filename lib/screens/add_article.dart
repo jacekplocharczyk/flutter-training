@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:training_app/models/library.dart';
+import 'package:training_app/models/article.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:training_app/commons/article_states.dart' as article_states;
 
 class SubmitButton extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -21,6 +22,8 @@ class SubmitButton extends StatefulWidget {
 class _SubmitButtonState extends State<SubmitButton> {
   @override
   Widget build(BuildContext context) {
+    const newArticleState = article_states.ArticleState.created;
+
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
         child: ElevatedButton(
@@ -30,8 +33,7 @@ class _SubmitButtonState extends State<SubmitButton> {
                   Provider.of<ArticleListModel>(context, listen: false);
               String title = widget.titleController.text;
               String content = widget.articleContentController.text;
-              String status = "running";
-              articleList.addArticle(title, status, content);
+              articleList.addArticle(title, newArticleState, content);
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Item added: $title')),
@@ -145,4 +147,3 @@ class AddArticlePageState extends State<AddArticlePage> {
     );
   }
 }
-

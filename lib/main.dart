@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_app/screens/library.dart';
-import 'package:training_app/models/library.dart';
+import 'package:training_app/models/article.dart';
 import 'package:training_app/screens/welcome.dart';
 import 'package:training_app/screens/add_article.dart';
 import 'package:training_app/screens/view_article.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 GoRouter router() {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/articles/0',
     routes: [
       GoRoute(
         path: '/welcome',

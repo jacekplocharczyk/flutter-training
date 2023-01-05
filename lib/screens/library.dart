@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:training_app/models/library.dart';
+import 'package:training_app/models/article.dart';
+import 'package:training_app/commons/article_states.dart' as article_states;
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,9 @@ class LibraryRow extends StatefulWidget {
 class _LibraryRowState extends State<LibraryRow> {
   @override
   Widget build(BuildContext context) {
+    final articleStateText =
+        article_states.articleStateMap[widget.article.state];
+
     final int index = widget.article.index;
     return GestureDetector(
       onTap: () {
@@ -23,7 +27,7 @@ class _LibraryRowState extends State<LibraryRow> {
         children: [
           Text(widget.article.title),
           const Spacer(),
-          Text(widget.article.status),
+          Text(articleStateText!),
         ],
       ),
     );
