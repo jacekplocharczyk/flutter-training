@@ -17,7 +17,7 @@ Future <String?> scheduleGeneratingAudio(String text) async {
   String? itemId;
   var response = await sendRequestGenerate(text);
   if (response.statusCode == 200) {
-    itemId = jsonDecode(response.body);
+    itemId = jsonDecode(response.body)["item_id"];
   }
   return itemId;
 }
